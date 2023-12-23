@@ -21,10 +21,17 @@ function App() {
  const [form] = Form.useForm()
 form.setFieldsValue({
     password: inputPassword,
-    numberallowed:numberAllowed,
-    charallowed:charAllowed
+    
   });
 
+ const handleCheckboxChange = (value, type) => {
+
+  if (type === 'number') {
+    setNumberAllowed(value);
+  } else if (type === 'charr') {
+    setCharAllowed(value);
+  }
+};
 
   const setPassword = useCallback(() => {
     let pass = ""
@@ -35,7 +42,12 @@ form.setFieldsValue({
      let char = Math.floor(Math.random() * str.length + 1)
      pass += str.charAt(char)
     }
-  }, [])
+    setInputPassword(pass)
+  }, [length, numberAllowed, charAllowed])
+
+  useEffect(() => {
+    setPassword()
+  } ,[form, numberAllowed, charAllowed, setPassword])
  return (
     <>
  <div className=' grid place-content-center h-screen ' >
@@ -59,13 +71,13 @@ form.setFieldsValue({
         
         <Row>
           <Col sm={24} md={12} >
-         <Form.Item name='numberallowed' label='Number Allowd' >
-         <Checkbox/>
+         <Form.Item name='number' label='Number Allowd' >
+         <Checkbox onChange={(e) => handleCheckboxChange(e.target.checked, 'number')} />
          </Form.Item>
          </Col>
          <Col sm={24} md={12} >
-         <Form.Item name='charallowed' label='Char Allowed' >
-         <Checkbox/>
+         <Form.Item name='charr' label='Char Allowed' >
+         <Checkbox  onChange={(e) => handleCheckboxChange(e.target.checked, 'charr')} />
          </Form.Item>
          </Col>
          
@@ -95,46 +107,4 @@ form.setFieldsValue({
 export default App
 
 
-
-// import { useState, useEffect } from 'react';
-
-// import { Button, Card, Input, Form } from 'antd';
-
-// function App() {
-//   const [form] = Form.useForm(); // Access the form instance
-
-//   useEffect(() => {
-//     // Set the initial value for the field inside the form
- 
-//   }, [form]);
-
-//   return (
-//     <>
-//       <div className='grid place-content-center h-screen'>
-//         <div className='my-5 grid place-content-center'>
-//           <h1 className='text-slate-200 text-4xl'>Password Generator</h1>
-//         </div>
-//         <Card className='p-4 w-96' hoverable>
-//           <Form
-//             layout='vertical'
-//             form={form} // Pass the form instance
-//           >
-//             <Form.Item
-//               name='fieldPassword'
-//               label='Enter field'
-//               rules={[{ required: true, message: 'Please enter field' }]}
-//             >
-//               <Input placeholder='Enter field of password' />
-//             </Form.Item>
-//             <Form.Item name='password' label='Password'>
-//               <Input />
-//             </Form.Item>
-//           </Form>
-//         </Card>
-//       </div>
-//     </>
-//   );
-// }
-
-// export default App;
 
