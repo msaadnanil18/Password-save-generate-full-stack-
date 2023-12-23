@@ -52,8 +52,7 @@ form.setFieldsValue({
  return (
     <>
  <div className=' float-right mx-5 ' >
-   
-     <Card
+   <Card
     className=' p-4 w-96'
     hoverable
    >

@@ -11,17 +11,18 @@ const GoogleAuth = () => {
   
    return(
         <>
-       <Row>
-         <Col span={8}></Col>
-        <Col sm={24} md={12} lg={8} >
-         <Card
+    <Row>
+    <Col span={8}></Col>
+    <Col sm={24} md={12} lg={8} >
+     <Card
         hoverable
-        className="md:mt-20"
+        className="md:mt-10 w-96 p-4 "
        >
            <Form
            layout="vertical"
+           className="w-full h-full"
            >
-            <Form.Item name='idName' label='Id' rules={[{required:true , message:"Please Enter Id"}]}  >
+            <Form.Item name='emailID' label='Email Id' rules={[{required:true , message:"Please Enter Email Id"}]}  >
                 <Input />
             </Form.Item>
             <Form.Item name='passName' label='Password' rules={[{required:true , message:'Please enter password'}]} >
