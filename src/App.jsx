@@ -10,7 +10,7 @@ const App = () => {
     <>
       
      <div className='my-5 grid place-content-center' >
-      <h1 className=' text-slate-900 text-4xl ' >Password Generator</h1>
+      <h1 className=' text-slate-900 text-4xl font-extrabold ' >Password Generator</h1>
       </div>
   
       <Routes>

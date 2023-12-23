@@ -11,9 +11,8 @@ const GoogleAuth = () => {
   
    return(
         <>
-       
-        <Row>
-        <Col span={8}></Col>
+       <Row>
+         <Col span={8}></Col>
         <Col sm={24} md={12} lg={8} >
          <Card
         hoverable
