@@ -1,14 +1,41 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import { Button, Card, Input, Form } from 'antd'
+import { useState, useCallback, useEffect,useRef } from 'react'
+import { Button, Card, Input, Form, Checkbox , Row, Col } from 'antd'
+import { Slider } from 'antd';
+const IconSlider = (props) => {
+  const { max, min , value, setValue } = props;
+  const mid = Number(((max - min) / 2).toFixed(5));
+  const preColorCls = value >= mid ? '' : 'icon-wrapper-active';
+  const nextColorCls = value >= mid ? 'icon-wrapper-active' : '';
+  return (
+    <div className="icon-wrapper">
+      <Slider {...props} onChange={setValue} value={value} />
+     </div>
+  );
+};
 
 function App() {
-  const [inputValue , setInputValue ] = useState('2222')
-   const [form] = Form.useForm()
+  const [inputPassword , setInputPassword ] = useState('2222')
+  const [length, setLength] = useState()
+  const [numberAllowed, setNumberAllowed] = useState(false);
+  const [charAllowed, setCharAllowed] = useState(false)
+ const [form] = Form.useForm()
 form.setFieldsValue({
-    password: inputValue ,
+    password: inputPassword,
+    numberallowed:numberAllowed,
+    charallowed:charAllowed
   });
+
+
+  const setPassword = useCallback(() => {
+    let pass = ""
+    let str = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+    if (numberAllowed) str += "0123456789"
+    if (charAllowed) str += "@#&*$"
+    for (let i = 1; i <length; i++) {
+     let char = Math.floor(Math.random() * str.length + 1)
+     pass += str.charAt(char)
+    }
+  }, [])
  return (
     <>
  <div className=' grid place-content-center h-screen ' >
@@ -29,6 +56,24 @@ form.setFieldsValue({
          <Form.Item name='password' label='Password' >
          <Input />
          </Form.Item>
+        
+        <Row>
+          <Col sm={24} md={12} >
+         <Form.Item name='numberallowed' label='Number Allowd' >
+         <Checkbox/>
+         </Form.Item>
+         </Col>
+         <Col sm={24} md={12} >
+         <Form.Item name='charallowed' label='Char Allowed' >
+         <Checkbox/>
+         </Form.Item>
+         </Col>
+         
+         </Row>
+         
+         <div className="icon-wrapper">
+         <IconSlider min={6} max={20} value={length} setValue={setLength} />
+          </div>
 
          <Form.Item>
           <Button>
@@ -37,6 +82,7 @@ form.setFieldsValue({
          </Form.Item>
 
       </Form>
+     
 
     </Card>
     
