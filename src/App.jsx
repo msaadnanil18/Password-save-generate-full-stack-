@@ -1,22 +1,22 @@
-import { useState, useCallback, useEffect,useRef } from 'react'
+import React from 'react'
 import PasswordGen from './components/PasswordGen'
 import GoogleAuth  from './components/GoogleAuth'
+import {  Routes, Route } from 'react-router-dom';
 
 
 const App = () => {
 
  return (
     <>
-     
-     
-   
-    
-    <GoogleAuth/>
+      
      <div className='my-5 grid place-content-center' >
       <h1 className=' text-slate-900 text-4xl ' >Password Generator</h1>
       </div>
   
-       
+      <Routes>
+      <Route path="/" element={<GoogleAuth />} />
+      <Route path="/password-gen" element={<PasswordGen />} />
+      </Routes>
     </>
   )
 }
