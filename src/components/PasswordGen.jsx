@@ -62,53 +62,7 @@ form.setFieldsValue({
   } ,[form, numberAllowed, charAllowed, setPassword])
  return (
     <>
- <div className=' md:hidden float-right mx-5 ' >
-      <Button className='bg-sky-400' icon={<PlusCircleOutlined />} type="primary" onClick={showDrawer}>
-       Create Password
-      </Button>
-  </div>    
-  <Drawer title="Basic Drawer" placement="right" onClose={onClose} open={open}>
-  
-      <Form
-      layout='vertical'
-      form={form}
-      >
-        <Form.Item name='fieldPassword' label='Enter field' rules={[{required:true, message:"Please enter field "}]} >
-          <Input placeholder='Enter field of password' />
-         </Form.Item>
-         <Form.Item name='password' label='Password' >
-         <Input />
-         </Form.Item>
-        
-        <Row>
-          <Col sm={24} md={12} >
-         <Form.Item name='number' label='Number Allowd' rules={[{required:true}]} >
-         <Checkbox onChange={(e) => handleCheckboxChange(e.target.checked, 'number')} />
-         </Form.Item>
-         </Col>
-         <Col sm={24} md={12} >
-         <Form.Item name='charr' label='Char Allowed' >
-         <Checkbox  onChange={(e) => handleCheckboxChange(e.target.checked, 'charr')} />
-         </Form.Item>
-         </Col>
-         
-         </Row>
-         
-         <div className="icon-wrapper">
-         <IconSlider min={6} max={20} value={length} setValue={setLength} />
-          </div>
-
-         <Form.Item>
-          <Button>
-            Click here to copy & submit
-          </Button>
-         </Form.Item>
-
-      </Form>
-    
-    </Drawer>
-    
-   <div className='hidden md:block float-right mx-5' >
+    <div className='hidden md:block float-right mx-5' >
    <Card
     className=' p-4 w-96'
     hoverable
@@ -151,6 +105,56 @@ form.setFieldsValue({
       </Form>
      </Card>
    </div>
+
+
+   {/* for mobile */}
+ <div className=' md:hidden float-right mx-5 ' >
+      <Button className='bg-sky-400' icon={<PlusCircleOutlined />} type="primary" onClick={showDrawer}>
+       Create Password
+      </Button>
+  </div>    
+  <Drawer title="Create password" placement="right" onClose={onClose} open={open}>
+  
+      <Form
+      layout='vertical'
+      form={form}
+      >
+        <Form.Item name='fieldPassword' label='Enter field' rules={[{required:true, message:"Please enter field "}]} >
+          <Input placeholder='Enter field of password' />
+         </Form.Item>
+         <Form.Item name='password' label='Password' >
+         <Input />
+         </Form.Item>
+        
+        <Row>
+          <Col sm={24} md={12} >
+         <Form.Item name='number' label='Number Allowd' rules={[{required:true}]} >
+         <Checkbox onChange={(e) => handleCheckboxChange(e.target.checked, 'number')} />
+         </Form.Item>
+         </Col>
+         <Col sm={24} md={12} >
+         <Form.Item name='charr' label='Char Allowed' >
+         <Checkbox  onChange={(e) => handleCheckboxChange(e.target.checked, 'charr')} />
+         </Form.Item>
+         </Col>
+         
+         </Row>
+         
+         <div className="icon-wrapper">
+         <IconSlider min={6} max={20} value={length} setValue={setLength} />
+          </div>
+
+         <Form.Item>
+          <Button>
+            Click here to copy & submit
+          </Button>
+         </Form.Item>
+
+      </Form>
+    
+    </Drawer>
+
+    {/* For mobile */}
        
     </>
   )
