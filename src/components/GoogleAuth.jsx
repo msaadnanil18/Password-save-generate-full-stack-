@@ -3,7 +3,7 @@ import { GoogleLogin } from '@react-oauth/google';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { jwtDecode } from "jwt-decode";
 import { useNavigate} from "react-router-dom";
-import { Button, Card, Input,Form } from "antd";
+import { Button, Card, Input,Form, Row,Col } from "antd";
 
 const GoogleAuth = () => {
     const navigate = useNavigate()
@@ -11,13 +11,14 @@ const GoogleAuth = () => {
   
    return(
         <>
-        
-        
-        <Card
-        
+       
+        <Row>
+        <Col span={8}></Col>
+        <Col sm={24} md={12} lg={8} >
+         <Card
         hoverable
-        style={{width:600}}
-        >
+        className="md:mt-20"
+       >
            <Form
            layout="vertical"
            >
@@ -26,6 +27,10 @@ const GoogleAuth = () => {
             </Form.Item>
             <Form.Item name='passName' label='Password' rules={[{required:true , message:'Please enter password'}]} >
                 <Input  />
+            </Form.Item>
+
+            <Form.Item >
+                <Button className="bg-sky-400" type="primary" >Submit</Button>
             </Form.Item>
 
             </Form> 
@@ -46,8 +51,12 @@ const GoogleAuth = () => {
 
    
     </Card>
+    </Col>
+    <Col span={8}></Col>
+    </Row>
+    
  </>
-    )
-}
+
+    )}
 
 export default GoogleAuth
