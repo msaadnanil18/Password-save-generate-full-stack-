@@ -4,6 +4,8 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import { jwtDecode } from "jwt-decode";
 import { useNavigate} from "react-router-dom";
 import { Button, Card, Input,Form, Row,Col } from "antd";
+import axios from 'axios';
+
 
 const GoogleAuth = () => {
     const navigate = useNavigate()

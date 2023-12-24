@@ -2,8 +2,15 @@ import Express  from "express";
 
 const app = Express()
 
-app.get("/", (req,res) =>{
-    res.send("server is ready")
+app.get("/api/jokes", (req,res) =>{
+    // res.send("server is ready")
+    const jokes = [
+    {name:"surya", class:"five"}, 
+    {name:"sohail", class:"six"},
+    {name:"jafar", class:"seven"}
+]
+
+res.send(jokes)
 } )
 
 
