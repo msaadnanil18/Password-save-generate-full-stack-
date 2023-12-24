@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect,useRef } from 'react'
 import { Button, Card, Input, Form, Checkbox , Row, Col,Slider, Drawer } from 'antd'
 import {PlusCircleOutlined} from '@ant-design/icons';
+import axios from 'axios';
 
 
 const IconSlider = (props) => {
@@ -30,7 +31,7 @@ function PasswordGen() {
   const [length, setLength] = useState()
   const [numberAllowed, setNumberAllowed] = useState(false);
   const [charAllowed, setCharAllowed] = useState(false)
- const [form] = Form.useForm()
+  const [form] = Form.useForm()
 form.setFieldsValue({
     password: inputPassword,
     
@@ -44,6 +45,17 @@ form.setFieldsValue({
     setCharAllowed(value);
   }
 };
+
+  const sendPass = () => {
+    const formData = form.getFieldsValue();
+    axios.post("/api/password-gen", formData)
+    .then((response) =>{
+      console.log('Server response:', response.data)
+    })
+    .catch((error) => {
+      console.log("Error", error)
+    })
+  }
 
   const setPassword = useCallback(() => {
     let pass = ""
@@ -68,8 +80,9 @@ form.setFieldsValue({
     hoverable
    >
       <Form
-      layout='vertical'
-      form={form}
+     layout="vertical"
+     onFinish={sendPass}
+     form={form}
       >
         <Form.Item name='fieldPassword' label='Enter field' rules={[{required:true, message:"Please enter field "}]} >
           <Input placeholder='Enter field of password' />
@@ -96,11 +109,12 @@ form.setFieldsValue({
          <IconSlider min={6} max={20} value={length} setValue={setLength} />
           </div>
 
-         <Form.Item>
-          <Button>
+          <Button
+          htmlType="submit"
+          >
             Click here to copy & submit
           </Button>
-         </Form.Item>
+      
 
       </Form>
      </Card>
