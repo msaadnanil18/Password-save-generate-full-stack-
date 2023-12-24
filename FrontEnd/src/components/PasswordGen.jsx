@@ -32,6 +32,7 @@ function PasswordGen() {
   const [numberAllowed, setNumberAllowed] = useState(false);
   const [charAllowed, setCharAllowed] = useState(false)
   const [form] = Form.useForm()
+ 
 form.setFieldsValue({
     password: inputPassword,
     
@@ -81,26 +82,30 @@ form.setFieldsValue({
    >
       <Form
      layout="vertical"
-     onFinish={sendPass}
+    //  onFinish={sendPass}
      form={form}
       >
         <Form.Item name='fieldPassword' label='Enter field' rules={[{required:true, message:"Please enter field "}]} >
           <Input placeholder='Enter field of password' />
          </Form.Item>
-         <Form.Item name='password' label='Password' >
+         <Form.Item name='password' label='Password'rules={[{required:true}]} >
          <Input />
          </Form.Item>
         
         <Row>
           <Col sm={24} md={12} >
-         <Form.Item name='number' label='Number Allowd' rules={[{required:true}]} >
-         <Checkbox onChange={(e) => handleCheckboxChange(e.target.checked, 'number')} />
-         </Form.Item>
+       
+         <Checkbox onChange={(e) => handleCheckboxChange(e.target.checked, 'number')} >
+          char Allowed
+         </Checkbox>
+       
          </Col>
          <Col sm={24} md={12} >
-         <Form.Item name='charr' label='Char Allowed' >
-         <Checkbox  onChange={(e) => handleCheckboxChange(e.target.checked, 'charr')} />
-         </Form.Item>
+       
+         <Checkbox  onChange={(e) => handleCheckboxChange(e.target.checked, 'charr')} >
+          Number Allowed
+         </Checkbox>
+        
          </Col>
          
          </Row>
@@ -110,7 +115,7 @@ form.setFieldsValue({
           </div>
 
           <Button
-          htmlType="submit"
+          onClick={sendPass}
           >
             Click here to copy & submit
           </Button>
@@ -136,20 +141,24 @@ form.setFieldsValue({
         <Form.Item name='fieldPassword' label='Enter field' rules={[{required:true, message:"Please enter field "}]} >
           <Input placeholder='Enter field of password' />
          </Form.Item>
-         <Form.Item name='password' label='Password' >
+         <Form.Item name='password' label='Password' rules={[{required:true}]} >
          <Input />
          </Form.Item>
         
         <Row>
           <Col sm={24} md={12} >
-         <Form.Item name='number' label='Number Allowd' rules={[{required:true}]} >
-         <Checkbox onChange={(e) => handleCheckboxChange(e.target.checked, 'number')} />
-         </Form.Item>
+        
+         <Checkbox onChange={(e) => handleCheckboxChange(e.target.checked, 'number')} >
+          Number Allowed
+         </Checkbox>
+        
          </Col>
          <Col sm={24} md={12} >
-         <Form.Item name='charr' label='Char Allowed' >
-         <Checkbox  onChange={(e) => handleCheckboxChange(e.target.checked, 'charr')} />
-         </Form.Item>
+        
+         <Checkbox  onChange={(e) => handleCheckboxChange(e.target.checked, 'charr')} >
+          Char Allowed
+         </Checkbox>
+        
          </Col>
          
          </Row>
@@ -159,7 +168,9 @@ form.setFieldsValue({
           </div>
 
          <Form.Item>
-          <Button>
+          <Button 
+          onClick={sendPass}
+          >
             Click here to copy & submit
           </Button>
          </Form.Item>
