@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { GoogleLogin } from '@react-oauth/google';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { jwtDecode } from "jwt-decode";
@@ -8,6 +8,13 @@ import axios from 'axios';
 
 
 const GoogleAuth = () => {
+const[googleAuth, setGoogleAuth] = useState("hloo")
+  
+const postData = () => {
+        axios.post("/api/login", googleAuth)
+       
+    }
+    
     const navigate = useNavigate()
  const clientId = "315101804831-f8f3hmhq5ajf00ouc4jkvuniqoq689e5.apps.googleusercontent.com"
   
@@ -32,7 +39,7 @@ const GoogleAuth = () => {
             </Form.Item>
 
             <Form.Item >
-                <Button className="bg-sky-400" type="primary" >Submit</Button>
+                <Button onClick={postData} className="bg-sky-400" type="primary" >Submit</Button>
             </Form.Item>
 
             </Form> 
@@ -41,6 +48,7 @@ const GoogleAuth = () => {
          onSuccess={credentialResponse => {
          const rest = jwtDecode(credentialResponse.credential)
          console.log(rest)
+         setGoogleAuth(rest)
          
          navigate("/password-gen")
       }}
