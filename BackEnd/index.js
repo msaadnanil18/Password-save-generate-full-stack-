@@ -1,5 +1,11 @@
 import express  from "express";
+import dotenv from "dotenv"
+dotenv.config({
+  path:"./env"
+})
+import connectDb from "./Db/db_connect.js";
 const app = express()
+connectDb()
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }));
@@ -9,7 +15,7 @@ app.get("/api/jokes", (req,res) =>{
     const jokes = [
     {name:"surya", class:"five"}, 
     {name:"sohail", class:"six"},
-    {name:"jafar", class:"seven"}
+    {name:"jafar", class:"sevens"}
 ]
 
 res.send(jokes)
