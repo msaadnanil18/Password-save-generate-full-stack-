@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect,useRef } from 'react'
-import { Button, Card, Input, Form, Checkbox , Row, Col,Slider, Drawer } from 'antd'
+import { Button, Card, Input, Form, Checkbox , Row, Col,Slider, Drawer,Typography, Flex  } from 'antd'
 import {PlusCircleOutlined} from '@ant-design/icons';
 import axios from 'axios';
 
@@ -18,6 +18,20 @@ const IconSlider = (props) => {
 
 function PasswordGen() {
   const [open, setOpen] = useState(false);
+  const [authData, setAuthData] = useState([]) 
+  useEffect(() => {
+   
+      axios.get('/api/auth')
+      .then((res) => {
+        console.log(res.data)
+        setAuthData(res.data)
+      })
+      .catch((error) => {
+        console.log(error, "err")
+      }) 
+    
+
+    }, []); 
 
   const showDrawer = () => {
     setOpen(true);
@@ -75,7 +89,19 @@ form.setFieldsValue({
   } ,[form, numberAllowed, charAllowed, setPassword])
  return (
     <>
+    <Typography.Title level={3} className='mx-5' >
+     <div style={{display:"Flex"}} >welcome:{authData.map((e,i) => {
+      return(
+      <div key={i}>
+    
+    {" "} {e.name}
+    
+      </div>
+      )
+    } ) }</div>
+   </Typography.Title>
     <div className='hidden md:block float-right mx-5' >
+   
    <Card
     className=' p-4 w-96'
     hoverable
