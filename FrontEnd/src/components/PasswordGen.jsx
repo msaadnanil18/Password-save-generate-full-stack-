@@ -1,7 +1,8 @@
 import { useState, useCallback, useEffect,useRef } from 'react'
-import { Button, Card, Input, Form, Checkbox , Row, Col,Slider, Drawer,Typography, Flex  } from 'antd'
+import { Button, Card, Input, Form, Checkbox , Row, Col,Slider, Drawer,Typography, } from 'antd'
 import {PlusCircleOutlined} from '@ant-design/icons';
 import axios from 'axios';
+import PasswordAppear from './PasswordAppear';
 
 
 const IconSlider = (props) => {
@@ -19,19 +20,10 @@ const IconSlider = (props) => {
 function PasswordGen() {
   const [open, setOpen] = useState(false);
   const [authData, setAuthData] = useState([]) 
-  useEffect(() => {
-   
-      axios.get('/api/auth')
-      .then((res) => {
-        console.log(res.data)
-        setAuthData(res.data)
-      })
-      .catch((error) => {
-        console.log(error, "err")
-      }) 
-    
-
-    }, []); 
+  const[loading, setloading] = useState(false)
+  const [form] = Form.useForm()
+  
+  
 
   const showDrawer = () => {
     setOpen(true);
@@ -45,7 +37,8 @@ function PasswordGen() {
   const [length, setLength] = useState()
   const [numberAllowed, setNumberAllowed] = useState(false);
   const [charAllowed, setCharAllowed] = useState(false)
-  const [form] = Form.useForm()
+ 
+  
  
 form.setFieldsValue({
     password: inputPassword,
@@ -61,16 +54,33 @@ form.setFieldsValue({
   }
 };
 
-  const sendPass = () => {
+
+const sendPass = () => {
     const formData = form.getFieldsValue();
     axios.post("/api/password-gen", formData)
     .then((response) =>{
+     setloading(true)
       console.log('Server response:', response.data)
+     
     })
     .catch((error) => {
       console.log("Error", error)
     })
   }
+
+  useEffect(() => {
+   
+    axios.get('/api/auth')
+    .then((res) => {
+      console.log(res.data)
+      setAuthData(res.data)
+    })
+    .catch((error) => {
+      console.log(error, "err")
+    }) 
+  
+
+  }, []); 
 
   const setPassword = useCallback(() => {
     let pass = ""
@@ -86,7 +96,8 @@ form.setFieldsValue({
 
   useEffect(() => {
     setPassword()
-  } ,[form, numberAllowed, charAllowed, setPassword])
+    
+  } ,[form, numberAllowed, charAllowed, setPassword,  ])
  return (
     <>
     <Typography.Title level={3} className='mx-5' >
@@ -100,6 +111,14 @@ form.setFieldsValue({
       )
     } ) }</div>
    </Typography.Title>
+
+
+   <Row >
+  <Col sm={24} md={12} lg={12} >
+   <PasswordAppear  loading={loading} />
+   </Col>
+  
+   <Col  sm={24} md={12} lg={12} >
     <div className='hidden md:block float-right mx-5' >
    
    <Card
@@ -149,7 +168,10 @@ form.setFieldsValue({
 
       </Form>
      </Card>
+    
    </div>
+   </Col>
+   </Row>
 
 
    {/* for mobile */}
