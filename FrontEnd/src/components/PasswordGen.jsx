@@ -114,9 +114,18 @@ const sendPass = () => {
 
 
    <Row >
+   
+     <div className=' md:hidden float-right m-4 ' >
+      <Button className='bg-sky-400' icon={<PlusCircleOutlined />} type="primary" onClick={showDrawer}>
+       Create Password
+      </Button>
+  </div> 
+  
+
   <Col sm={24} md={12} lg={12} >
    <PasswordAppear  loading={loading} />
    </Col>
+   
   
    <Col  sm={24} md={12} lg={12} >
     <div className='hidden md:block float-right mx-5' >
@@ -170,16 +179,10 @@ const sendPass = () => {
      </Card>
     
    </div>
-   </Col>
-   </Row>
-
-
-   {/* for mobile */}
- <div className=' md:hidden float-right mx-5 ' >
-      <Button className='bg-sky-400' icon={<PlusCircleOutlined />} type="primary" onClick={showDrawer}>
-       Create Password
-      </Button>
-  </div>    
+  
+ {/* for mobile */}
+ </Col>
+   </Row>   
   <Drawer title="Create password" placement="right" onClose={onClose} open={open}>
   
       <Form

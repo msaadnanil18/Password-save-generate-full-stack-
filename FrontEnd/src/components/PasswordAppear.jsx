@@ -19,16 +19,17 @@ const PasswordAppear = (loading) => {
 
   const columns = [
     {
-      title: 'Password',
-      dataIndex: 'password',
-      key: 'password',
-    },
-    {
       title: 'Field Password',
       dataIndex: 'fieldPassword',
       key: 'actions',
      
     },
+    {
+      title: 'Password',
+      dataIndex: 'password',
+      key: 'password',
+    },
+    
   ];
 
   
