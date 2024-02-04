@@ -1,84 +1,82 @@
 import React, { useEffect, useState } from "react";
-import { GoogleLogin } from '@react-oauth/google';
-import { GoogleOAuthProvider } from '@react-oauth/google';
+import { GoogleLogin } from "@react-oauth/google";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
-import { useNavigate} from "react-router-dom";
-import { Button, Card, Input,Form, Row,Col } from "antd";
-import axios from 'axios';
-
+import { useNavigate } from "react-router-dom";
+import { Button, Card, Input, Form, Row, Col } from "antd";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { setApiResponse } from "./reduxToolkit/apiSlice";
 
 const GoogleAuth = () => {
-    const { form } = Form.useForm();
-    const[loading , setLoading] = useState(false)
-    const [navigat, setNavigat] = useState(false)
-  
-   const[googleAuth, setGoogleAuth] = useState([])
-  
-const postData = () => {
-    
-        axios.post('/api/login', googleAuth)
-        .then(response => {
-            setNavigat(true)
-          console.log('Server response:', response.data);
-        })
-        .catch(error => {
-          console.error('Error:', error);
-        });
-    }
-    
-    const navigate = useNavigate()
- const clientId = "315101804831-f8f3hmhq5ajf00ouc4jkvuniqoq689e5.apps.googleusercontent.com"
-  
-   return(
-        <>
-    <Row>
-    <Col span={8}></Col>
-    <Col sm={24} md={12} lg={8} >
-     <Card
-        hoverable
-        className="md:mt-10 w-96 p-4 "
-       >
-      <GoogleOAuthProvider clientId={clientId}>
-        <GoogleLogin
-         onSuccess={credentialResponse => {
-         const rest = jwtDecode(credentialResponse.credential)
-         setLoading(true)
-         setGoogleAuth(rest)
-         
-       
-        
-      }}
-       onError={() => {
-       console.log('Login Failed')
-      }}
-   />
+  const { form } = Form.useForm();
+  const [loading, setLoading] = useState(false);
+  const [navigat, setNavigat] = useState(false);
+  const [response, setResponse] = useState();
+  const [googleAuth, setGoogleAuth] = useState([]);
 
-    </GoogleOAuthProvider>
+  const dispatch = useDispatch();
 
-   
+  const postData = () => {
+    axios
+      .post("/api/login", googleAuth)
+      .then((response) => {
+        setNavigat(true);
+        setResponse(response?.data);
+        // console.log('Server response:', response.data);
+      })
+      .catch((error) => {
+        // console.error('Error:', error);
+      });
+  };
 
-        {navigat&&  navigate("/password-gen") }
-       
-       <div className="grid place-content-center my-8" >  
-       {loading && (
-          <Button 
-          className="bg-sky-400 " 
-            type="primary" 
-           onClick={postData}>
-             Submit
-            </Button>
-       )} 
-         </div>
-    </Card>
-    </Col>
-    <Col span={8}></Col>
-    </Row>
-    
- </>
+  dispatch(setApiResponse(response));
 
-    )}
+  const navigate = useNavigate();
+  const clientId =
+    "315101804831-f8f3hmhq5ajf00ouc4jkvuniqoq689e5.apps.googleusercontent.com";
 
-export default GoogleAuth
+  return (
+    <>
+      <Row>
+        <Col span={8}></Col>
+        <Col sm={24} md={12} lg={8}>
+          <Card hoverable className="md:mt-10 w-96 p-4 ">
+            <GoogleOAuthProvider clientId={clientId}>
+              <GoogleLogin
+                onSuccess={(credentialResponse) => {
+                  const rest = jwtDecode(credentialResponse.credential);
+                  setLoading(true);
+                  setGoogleAuth(rest);
+                }}
+                onError={() => {
+                  //  console.log('Login Failed')
+                }}
+              />
+            </GoogleOAuthProvider>
+
+            {navigat && navigate(`/password-gen/${response?._id}`)}
+
+            <div className="grid place-content-center my-8">
+              {loading && (
+                <Button
+                  className="bg-sky-400 "
+                  type="primary"
+                  onClick={postData}
+                >
+                  Submit
+                </Button>
+              )}
+            </div>
+          </Card>
+        </Col>
+        <Col span={8}></Col>
+      </Row>
+    </>
+  );
+};
+
+export default GoogleAuth;
 
 // import React, { useEffect, useState } from "react";
 // import { GoogleLogin } from '@react-oauth/google';
