@@ -119,7 +119,7 @@ function PasswordGen() {
             <Col sm={24} md={12} lg={12}>
               <div className="hidden md:block float-right mx-5">
                 <Card className=" p-4 w-96" hoverable>
-                  <Form layout="vertical" form={form}>
+                  <Form layout="vertical" form={form} preserve={false}>
                     <Form.Item
                       name="fieldPassword"
                       label="Enter field"
@@ -183,7 +183,7 @@ function PasswordGen() {
             onClose={onClose}
             open={open}
           >
-            <Form layout="vertical" form={form}>
+            <Form layout="vertical" form={form} preserve={false}>
               <Form.Item
                 name="fieldPassword"
                 label="Enter field"
