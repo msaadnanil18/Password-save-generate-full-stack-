@@ -3,7 +3,7 @@ import axios from "axios";
 import { Table, Spin } from "antd";
 import { useSelector } from "react-redux";
 
-const PasswordAppear = (loading) => {
+const PasswordAppear = (load) => {
   const [authData, setAuthData] = useState([]);
   const [dataLoading, setDataLoading] = useState(false);
   const apiResponse = useSelector((state) => state.apiResponse);
@@ -21,8 +21,8 @@ const PasswordAppear = (loading) => {
       .finally(() => {
         setDataLoading(false);
       });
-  }, [loading]);
-
+  }, [load]);
+ 
   const columns = [
     {
       title: "Field Password",
@@ -39,9 +39,9 @@ const PasswordAppear = (loading) => {
   return (
     <div>
       {dataLoading && loading ? (
-        <div>
-          <Spin />
-        </div>
+         <div className=" grid place-content-center h-screen">
+         <Spin />
+       </div>
       ) : (
         <Table dataSource={authData} columns={columns} />
       )}

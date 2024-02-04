@@ -10,6 +10,7 @@ import {
   Slider,
   Drawer,
   Typography,
+  Spin,
 } from "antd";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import axios from "axios";
@@ -30,7 +31,7 @@ const IconSlider = (props) => {
 
 function PasswordGen() {
   const [open, setOpen] = useState(false);
-  const [loading, setloading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [form] = Form.useForm();
   const apiRepose = useSelector((state) => state.apiResponse);
 
@@ -60,18 +61,21 @@ function PasswordGen() {
   };
 
   const sendPass = () => {
+    setLoading(true);
+
     const formData = form.getFieldsValue();
     axios
       .post(`/api/password-gen/${apiRepose?._id}`, formData)
-      .then((response) => {
-        setloading(true);
-      })
+      .then((response) => {})
       .catch((error) => {
-        console.log("Error", error)
+        console.log("Error", error);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
- const setPassword = useCallback(() => {
+  const setPassword = useCallback(() => {
     let pass = "";
     let str = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     if (numberAllowed) str += "0123456789";
@@ -88,137 +92,150 @@ function PasswordGen() {
   }, [form, numberAllowed, charAllowed, setPassword]);
   return (
     <>
-      <Typography.Title level={3} className="mx-5"></Typography.Title>
-
-      <Row>
-        <div className=" md:hidden float-right m-4 ">
-          <Button
-            className="bg-sky-400"
-            icon={<PlusCircleOutlined />}
-            type="primary"
-            onClick={showDrawer}
-          >
-            Create Password
-          </Button>
+      {loading ? (
+        <div className=" grid place-content-center h-screen">
+          <Spin />
         </div>
-
-        <Col sm={24} md={12} lg={12}>
-          <PasswordAppear loading={loading} />
-        </Col>
-
-        <Col sm={24} md={12} lg={12}>
-          <div className="hidden md:block float-right mx-5">
-            <Card className=" p-4 w-96" hoverable>
-              <Form
-                layout="vertical"
-                //  onFinish={sendPass}
-                form={form}
-              >
-                <Form.Item
-                  name="fieldPassword"
-                  label="Enter field"
-                  rules={[{ required: true, message: "Please enter field " }]}
-                >
-                  <Input placeholder="Enter field of password" />
-                </Form.Item>
-                <Form.Item
-                  name="password"
-                  label="Password"
-                  rules={[{ required: true }]}
-                >
-                  <Input />
-                </Form.Item>
-
-                <Row>
-                  <Col sm={24} md={12}>
-                    <Checkbox
-                      onChange={(e) =>
-                        handleCheckboxChange(e.target.checked, "number")
-                      }
-                    >
-                      char Allowed
-                    </Checkbox>
-                  </Col>
-                  <Col sm={24} md={12}>
-                    <Checkbox
-                      onChange={(e) =>
-                        handleCheckboxChange(e.target.checked, "charr")
-                      }
-                    >
-                      Number Allowed
-                    </Checkbox>
-                  </Col>
-                </Row>
-
-                <div className="icon-wrapper">
-                  <IconSlider
-                    min={6}
-                    max={20}
-                    value={length}
-                    setValue={setLength}
-                  />
-                </div>
-
-                <Button onClick={sendPass}>Click here to copy & submit</Button>
-              </Form>
-            </Card>
-          </div>
-
-          {/* for mobile */}
-        </Col>
-      </Row>
-      <Drawer
-        title="Create password"
-        placement="right"
-        onClose={onClose}
-        open={open}
-      >
-        <Form layout="vertical" form={form}>
-          <Form.Item
-            name="fieldPassword"
-            label="Enter field"
-            rules={[{ required: true, message: "Please enter field " }]}
-          >
-            <Input placeholder="Enter field of password" />
-          </Form.Item>
-          <Form.Item
-            name="password"
-            label="Password"
-            rules={[{ required: true }]}
-          >
-            <Input />
-          </Form.Item>
+      ) : (
+        <div>
+          <Typography.Title level={3} className="mx-5"></Typography.Title>
 
           <Row>
-            <Col sm={24} md={12}>
-              <Checkbox
-                onChange={(e) =>
-                  handleCheckboxChange(e.target.checked, "number")
-                }
+            <div className=" md:hidden float-right m-4 ">
+              <Button
+                className="bg-sky-400"
+                icon={<PlusCircleOutlined />}
+                type="primary"
+                onClick={showDrawer}
               >
-                Number Allowed
-              </Checkbox>
+                Create Password
+              </Button>
+            </div>
+
+            <Col sm={24} md={12} lg={12}>
+              <PasswordAppear load={loading} />
             </Col>
-            <Col sm={24} md={12}>
-              <Checkbox
-                onChange={(e) =>
-                  handleCheckboxChange(e.target.checked, "charr")
-                }
-              >
-                Char Allowed
-              </Checkbox>
+
+            <Col sm={24} md={12} lg={12}>
+              <div className="hidden md:block float-right mx-5">
+                <Card className=" p-4 w-96" hoverable>
+                  <Form layout="vertical" form={form}>
+                    <Form.Item
+                      name="fieldPassword"
+                      label="Enter field"
+                      rules={[
+                        { required: true, message: "Please enter field " },
+                      ]}
+                    >
+                      <Input placeholder="Enter field of password" />
+                    </Form.Item>
+                    <Form.Item
+                      name="password"
+                      label="Password"
+                      rules={[{ required: true }]}
+                    >
+                      <Input />
+                    </Form.Item>
+
+                    <Row>
+                      <Col sm={24} md={12}>
+                        <Checkbox
+                          onChange={(e) =>
+                            handleCheckboxChange(e.target.checked, "number")
+                          }
+                        >
+                          char Allowed
+                        </Checkbox>
+                      </Col>
+                      <Col sm={24} md={12}>
+                        <Checkbox
+                          onChange={(e) =>
+                            handleCheckboxChange(e.target.checked, "charr")
+                          }
+                        >
+                          Number Allowed
+                        </Checkbox>
+                      </Col>
+                    </Row>
+
+                    <div className="icon-wrapper">
+                      <IconSlider
+                        min={6}
+                        max={20}
+                        value={length}
+                        setValue={setLength}
+                      />
+                    </div>
+
+                    <Button onClick={sendPass}>
+                      Click here to copy & submit
+                    </Button>
+                  </Form>
+                </Card>
+              </div>
+
+              {/* for mobile */}
             </Col>
           </Row>
+          <Drawer
+            title="Create password"
+            placement="right"
+            onClose={onClose}
+            open={open}
+          >
+            <Form layout="vertical" form={form}>
+              <Form.Item
+                name="fieldPassword"
+                label="Enter field"
+                rules={[{ required: true, message: "Please enter field " }]}
+              >
+                <Input placeholder="Enter field of password" />
+              </Form.Item>
+              <Form.Item
+                name="password"
+                label="Password"
+                rules={[{ required: true }]}
+              >
+                <Input />
+              </Form.Item>
 
-          <div className="icon-wrapper">
-            <IconSlider min={6} max={20} value={length} setValue={setLength} />
-          </div>
+              <Row>
+                <Col sm={24} md={12}>
+                  <Checkbox
+                    onChange={(e) =>
+                      handleCheckboxChange(e.target.checked, "number")
+                    }
+                  >
+                    Number Allowed
+                  </Checkbox>
+                </Col>
+                <Col sm={24} md={12}>
+                  <Checkbox
+                    onChange={(e) =>
+                      handleCheckboxChange(e.target.checked, "charr")
+                    }
+                  >
+                    Char Allowed
+                  </Checkbox>
+                </Col>
+              </Row>
 
-          <Form.Item>
-            <Button onClick={sendPass}>Click here to copy & submit</Button>
-          </Form.Item>
-        </Form>
-      </Drawer>
+              <div className="icon-wrapper">
+                <IconSlider
+                  min={6}
+                  max={20}
+                  value={length}
+                  setValue={setLength}
+                />
+              </div>
+
+              <Form.Item>
+                <Button onClick={sendPass}>Click here to copy & submit</Button>
+              </Form.Item>
+            </Form>
+          </Drawer>
+        </div>
+      )}
 
       {/* For mobile */}
     </>
