@@ -1,25 +1,26 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice,createReducer } from "@reduxjs/toolkit";
 
 export const apiSlice = createSlice({
   name: "api",
   initialState: {
-    apiResponse: null,
-    loading: false,
+    userData: null,
+    setUserData: null,
     error: null,
   },
   reducers: {
-    setApiResponse: (state, action) => {
-      state.apiResponse = action.payload;
+    userData: (state, action) => {
+      state.userData = action.payload;
     },
-    setLoading: (state, action) => {
-      state.loading = action.payload;
+    setUserData: (state, action) => {
+      state.setUserData = action.payload;
     },
+  
     setError: (state, action) => {
       state.error = action.payload;
     },
   },
 });
 
-export const { setApiResponse, setLoading, setError } = apiSlice.actions;
+export const { userData, setUserData, setError } = apiSlice.actions;
 
 export default apiSlice.reducer;

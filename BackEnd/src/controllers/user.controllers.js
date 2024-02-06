@@ -16,13 +16,11 @@ const loginUserUpdate = asyncHandler(async (req, res) => {
   }
 
   const userId = user._id;
-  console.log(userId);
 
   return res.status(201).json({ _id: userId, ...user._doc });
 });
 
 const logiUser = asyncHandler(async (req, res) => {
-  console.log(req.params.userId);
   const userId = req.params.userId;
 
   try {
@@ -70,4 +68,35 @@ const updatePassword = asyncHandler(async (req, res) => {
   }
 });
 
-export { logiUser, updatePassword, loginUserUpdate };
+const deletePassword = asyncHandler(async (req, res) => {
+  const deleteId = req.params.deleteId;
+  const deletedOne = req.params.deletedOne;
+  try {
+    const user = await User.findById(deleteId);
+    if (!user) {
+      return res.json({ message: "User not founded" });
+    }
+    const passwordHistoryIndex = user.passwordHistory.findIndex(
+      (history) => String(history._id) === deletedOne
+    );
+    if (passwordHistoryIndex === -1) {
+      return res.status(404).json({ message: "Password history not found" });
+    }
+    user.passwordHistory.splice(passwordHistoryIndex, 1);
+    await user.save();
+    return res
+      .status(200)
+      .json({ message: "Password history deleted successfully" });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+const logoutUser = asyncHandler(async (req, res) => {
+  logoutId = req.params.logoutId;
+  try {
+  } catch (error) {}
+});
+
+export { logiUser, updatePassword, loginUserUpdate, deletePassword };

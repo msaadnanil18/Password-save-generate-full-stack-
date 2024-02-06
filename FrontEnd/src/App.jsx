@@ -1,17 +1,13 @@
 import React, { useEffect, useState } from "react";
 import PasswordGen from "./components/PasswordGen";
 import GoogleAuth from "./components/GoogleAuth";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useParams } from "react-router-dom";
+import NavBar from "./components/NavBar";
 
 const App = () => {
   return (
     <>
-      <div className="my-5 grid place-content-center">
-        <h1 className="text-slate-900 text-4xl font-extrabold">
-          Password Generator
-        </h1>
-      </div>
-
+      <NavBar />
       <Routes>
         <Route path="/" element={<GoogleAuth />} />
 

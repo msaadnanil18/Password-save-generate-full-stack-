@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 import {
   Button,
-  Card,
+  Divider,
   Input,
   Form,
   Checkbox,
@@ -15,7 +15,7 @@ import {
 import { PlusCircleOutlined } from "@ant-design/icons";
 import axios from "axios";
 import PasswordAppear from "./PasswordAppear";
-import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 
 const IconSlider = (props) => {
   const { max, min, value, setValue } = props;
@@ -33,7 +33,7 @@ function PasswordGen() {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [form] = Form.useForm();
-  const apiRepose = useSelector((state) => state.apiResponse);
+  const params = useParams();
 
   const showDrawer = () => {
     setOpen(true);
@@ -65,7 +65,7 @@ function PasswordGen() {
 
     const formData = form.getFieldsValue();
     axios
-      .post(`/api/password-gen/${apiRepose?._id}`, formData)
+      .post(`/api/password-gen/${params.id}`, formData)
       .then((response) => {})
       .catch((error) => {
         console.log("Error", error);
@@ -98,86 +98,23 @@ function PasswordGen() {
         </div>
       ) : (
         <div>
-          <Typography.Title level={3} className="mx-5"></Typography.Title>
+          
+          <div className=" p-2 flex justify-between">
+          <Typography.Title level={3} className="">
+          Generate Your Password
+          </Typography.Title>
+            <Button
+              className="bg-sky-400"
+              icon={<PlusCircleOutlined />}
+              type="primary"
+              onClick={showDrawer}
+            >
+              Create Password
+            </Button>
+          </div>
 
-          <Row>
-            <div className=" md:hidden float-right m-4 ">
-              <Button
-                className="bg-sky-400"
-                icon={<PlusCircleOutlined />}
-                type="primary"
-                onClick={showDrawer}
-              >
-                Create Password
-              </Button>
-            </div>
-
-            <Col sm={24} md={12} lg={12}>
-              <PasswordAppear load={loading} />
-            </Col>
-
-            <Col sm={24} md={12} lg={12}>
-              <div className="hidden md:block float-right mx-5">
-                <Card className=" p-4 w-96" hoverable>
-                  <Form layout="vertical" form={form} preserve={false}>
-                    <Form.Item
-                      name="fieldPassword"
-                      label="Enter field"
-                      rules={[
-                        { required: true, message: "Please enter field " },
-                      ]}
-                    >
-                      <Input placeholder="Enter field of password" />
-                    </Form.Item>
-                    <Form.Item
-                      name="password"
-                      label="Password"
-                      rules={[{ required: true }]}
-                    >
-                      <Input />
-                    </Form.Item>
-
-                    <Row>
-                      <Col sm={24} md={12}>
-                        <Checkbox
-                          onChange={(e) =>
-                            handleCheckboxChange(e.target.checked, "number")
-                          }
-                        >
-                          char Allowed
-                        </Checkbox>
-                      </Col>
-                      <Col sm={24} md={12}>
-                        <Checkbox
-                          onChange={(e) =>
-                            handleCheckboxChange(e.target.checked, "charr")
-                          }
-                        >
-                          Number Allowed
-                        </Checkbox>
-                      </Col>
-                    </Row>
-
-                    <div className="icon-wrapper">
-                      <IconSlider
-                        min={6}
-                        max={20}
-                        value={length}
-                        setValue={setLength}
-                      />
-                    </div>
-
-                    <Button onClick={sendPass}>
-                      Click here to copy & submit
-                    </Button>
-                  </Form>
-                </Card>
-              </div>
-
-              {/* for mobile */}
-            </Col>
-          </Row>
-          <Drawer
+          <PasswordAppear load={loading} />
+           <Drawer
             title="Create password"
             placement="right"
             onClose={onClose}
@@ -228,16 +165,17 @@ function PasswordGen() {
                   setValue={setLength}
                 />
               </div>
-
-              <Form.Item>
+              <div className="absolute inset-x-0 bottom-0 m-4 mx-9 "  >
+              <Divider />
+              
                 <Button onClick={sendPass}>Click here to copy & submit</Button>
-              </Form.Item>
+              </div>
             </Form>
           </Drawer>
         </div>
       )}
 
-      {/* For mobile */}
+     
     </>
   );
 }
