@@ -35,22 +35,44 @@ const logiUser = asyncHandler(async (req, res) => {
   }
 });
 
+// const updatePassword = asyncHandler(async (req, res) => {
+//   const userId = req.params.userId;
+//   const { fieldPassword, password } = req.body;
+//   try {
+//     const user = await User.findByIdAndUpdate(
+//       userId,
+//       {
+//         $push: {
+//           passwordHistory: {
+//             fieldPassword: fieldPassword,
+//             password: password,
+//           },
+//         },
+//       },
+//       { new: true }
+//     );
+
+//     if (!user) {
+//       return res
+//         .status(404)
+//         .json({ success: false, message: "User not found" });
+//     }
+
+//     console.log("Updated user password history:", user);
+//     res
+//       .status(200)
+//       .json({ success: true, message: "Password updated successfully", user });
+//   } catch (error) {
+//     console.error("Error updating password history:", error);
+//     res.status(500).json({ success: false, message: "Internal Server Error" });
+//   }
+// });
+
 const updatePassword = asyncHandler(async (req, res) => {
   const userId = req.params.userId;
   const { fieldPassword, password } = req.body;
   try {
-    const user = await User.findByIdAndUpdate(
-      userId,
-      {
-        $push: {
-          passwordHistory: {
-            fieldPassword: fieldPassword,
-            password: password,
-          },
-        },
-      },
-      { new: true }
-    );
+    const user = await User.findById(userId);
 
     if (!user) {
       return res
@@ -58,10 +80,26 @@ const updatePassword = asyncHandler(async (req, res) => {
         .json({ success: false, message: "User not found" });
     }
 
-    console.log("Updated user password history:", user);
+    const existingPasswordEntryIndex = user.passwordHistory.findIndex(
+      (entry) => entry.fieldPassword === fieldPassword
+    );
+
+    if (existingPasswordEntryIndex !== -1) {
+      user.passwordHistory[existingPasswordEntryIndex].password = password;
+    } else {
+      user.passwordHistory.push({ fieldPassword, password });
+    }
+
+    const updatedUser = await user.save();
+
+    console.log("Updated user password history:", updatedUser);
     res
       .status(200)
-      .json({ success: true, message: "Password updated successfully", user });
+      .json({
+        success: true,
+        message: "Password updated successfully",
+        user: updatedUser,
+      });
   } catch (error) {
     console.error("Error updating password history:", error);
     res.status(500).json({ success: false, message: "Internal Server Error" });
@@ -93,10 +131,45 @@ const deletePassword = asyncHandler(async (req, res) => {
   }
 });
 
-const logoutUser = asyncHandler(async (req, res) => {
-  logoutId = req.params.logoutId;
+const editPassword = asyncHandler(async (req, res) => {
+  const userId = req.params.userId;
+  const editId = req.params.editId;
+
   try {
-  } catch (error) {}
+    const user = await User.findById(userId);
+    const editPasswordHistoryIndex = user.passwordHistory.findIndex(
+      (history) => String(history._id) === editId
+    );
+
+    if (editPasswordHistoryIndex === -1) {
+      return res.status(404).json({
+        success: false,
+        message: "Password edit not found",
+      });
+    }
+
+    const passwordEdit = user.passwordHistory.splice(
+      editPasswordHistoryIndex,
+      1
+    )[0];
+
+    res.status(200).json({
+      success: true,
+      message: "Password updated successfully",
+      passwordEdit,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+    });
+  }
 });
 
-export { logiUser, updatePassword, loginUserUpdate, deletePassword };
+export {
+  logiUser,
+  updatePassword,
+  loginUserUpdate,
+  deletePassword,
+  editPassword,
+};

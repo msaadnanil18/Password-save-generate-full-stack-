@@ -54,7 +54,7 @@ const GoogleAuth = () => {
                 />
               </GoogleOAuthProvider>
             </div>
-            {navigat && navigate(`/password-gen/${response?._id}`)}
+            {navigat && navigate(`password-gen/${response?._id}`)}
 
             <div className="grid place-content-center my-8">
               {loading && (

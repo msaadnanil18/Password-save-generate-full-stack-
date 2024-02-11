@@ -32,6 +32,11 @@ const IconSlider = (props) => {
 function PasswordGen() {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [inputPassword, setInputPassword] = useState();
+  const [length, setLength] = useState();
+  const [numberAllowed, setNumberAllowed] = useState(false);
+  const [charAllowed, setCharAllowed] = useState(false);
+
   const [form] = Form.useForm();
   const params = useParams();
 
@@ -43,11 +48,7 @@ function PasswordGen() {
     setOpen(false);
   };
 
-  const [inputPassword, setInputPassword] = useState();
-  const [length, setLength] = useState();
-  const [numberAllowed, setNumberAllowed] = useState(false);
-  const [charAllowed, setCharAllowed] = useState(false);
-
+  
   form.setFieldsValue({
     password: inputPassword,
   });
@@ -98,12 +99,12 @@ function PasswordGen() {
         </div>
       ) : (
         <div>
-          
           <div className=" p-2 flex justify-between">
-          <Typography.Title level={3} className="">
-          Generate Your Password
-          </Typography.Title>
+            <Typography.Title level={3} className="">
+              Generate Your Password
+            </Typography.Title>
             <Button
+              style={{ color: "#e9ebf0", fontWeight: "bold" }}
               className="bg-sky-400"
               icon={<PlusCircleOutlined />}
               type="primary"
@@ -113,8 +114,13 @@ function PasswordGen() {
             </Button>
           </div>
 
-          <PasswordAppear load={loading} />
-           <Drawer
+          <PasswordAppear
+            loading={loading}
+            form={form}
+            open={open}
+            setOpen={setOpen}
+          />
+          <Drawer
             title="Create password"
             placement="right"
             onClose={onClose}
@@ -165,17 +171,15 @@ function PasswordGen() {
                   setValue={setLength}
                 />
               </div>
-              <div className="absolute inset-x-0 bottom-0 m-4 mx-9 "  >
-              <Divider />
-              
+              <div className="absolute inset-x-0 bottom-0 m-4 mx-9 ">
+                <Divider />
+
                 <Button onClick={sendPass}>Click here to copy & submit</Button>
               </div>
             </Form>
           </Drawer>
         </div>
       )}
-
-     
     </>
   );
 }

@@ -11,7 +11,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<GoogleAuth />} />
 
-        <Route path={"/password-gen/:id"} element={<PasswordGen />} />
+        <Route path={"password-gen/:id"} element={<PasswordGen />} />
       </Routes>
     </>
   );
