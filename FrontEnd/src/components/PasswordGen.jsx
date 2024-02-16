@@ -48,7 +48,6 @@ function PasswordGen() {
     setOpen(false);
   };
 
-  
   form.setFieldsValue({
     password: inputPassword,
   });
@@ -100,7 +99,10 @@ function PasswordGen() {
       ) : (
         <div>
           <div className=" p-2 flex justify-between">
-            <Typography.Title level={3} className="">
+            <Typography.Title
+              level={3}
+              style={{ color: "rgba(203, 213, 225)" }}
+            >
               Generate Your Password
             </Typography.Title>
             <Button
@@ -125,26 +127,30 @@ function PasswordGen() {
             placement="right"
             onClose={onClose}
             open={open}
+            style={{backgroundColor:'#333'  }}
           >
             <Form layout="vertical" form={form} preserve={false}>
               <Form.Item
                 name="fieldPassword"
                 label="Enter field"
                 rules={[{ required: true, message: "Please enter field " }]}
+                
               >
-                <Input placeholder="Enter field of password" />
+                <Input placeholder="Enter field of password" style={{ backgroundColor: "#7b7d85" }} />
               </Form.Item>
               <Form.Item
                 name="password"
                 label="Password"
                 rules={[{ required: true }]}
+                
               >
-                <Input />
+                <Input style={{ backgroundColor: "#7b7d85" }} />
               </Form.Item>
 
               <Row>
                 <Col sm={24} md={12}>
                   <Checkbox
+                  style={{ backgroundColor: "#7b7d85" }}
                     onChange={(e) =>
                       handleCheckboxChange(e.target.checked, "number")
                     }
@@ -154,6 +160,7 @@ function PasswordGen() {
                 </Col>
                 <Col sm={24} md={12}>
                   <Checkbox
+                  style={{ backgroundColor: "#7b7d85" }}
                     onChange={(e) =>
                       handleCheckboxChange(e.target.checked, "charr")
                     }
