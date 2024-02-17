@@ -41,8 +41,8 @@ const GoogleAuth = () => {
         </h1>
       </div>
       <Row>
-        <Col span={8}></Col>
-        <Col sm={24} md={12} lg={8}>
+        <Col sm={6}></Col>
+        <Col xs={24} sm={12} >
           <Card
             hoverable
             className="md:mt-10 p-4"
@@ -56,7 +56,7 @@ const GoogleAuth = () => {
               boxShadow: "0 2px 6px rgba(255, 255, 255, 0.1)",
             }}
           >
-            <div className="mx-14 p-5  ">
+            <div className=" grid place-content-center p-5  ">
               <GoogleOAuthProvider clientId={clientId}>
                 <GoogleLogin
                   onSuccess={(credentialResponse) => {
@@ -120,7 +120,7 @@ const GoogleAuth = () => {
             </div>
           </Card>
         </Col>
-        <Col span={8}></Col>
+       
       </Row>
     </>
   );
