@@ -49,8 +49,8 @@ const GoogleAuth = () => {
             style={{
               width: "100%",
               height: 435,
-              backgroundColor: "#333",
-              color: "#fff",
+              // backgroundColor: "#333",
+              // color: "#fff",
               border: "2px solid #555",
               borderRadius: "24px",
               boxShadow: "0 2px 6px rgba(255, 255, 255, 0.1)",

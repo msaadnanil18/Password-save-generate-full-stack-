@@ -1,7 +1,6 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 import {
   Button,
-  Divider,
   Input,
   Form,
   Checkbox,
@@ -12,7 +11,7 @@ import {
   Typography,
   Spin,
 } from "antd";
-import { PlusCircleOutlined } from "@ant-design/icons";
+import { PlusCircleOutlined, UploadOutlined } from "@ant-design/icons";
 import axios from "axios";
 import PasswordAppear from "./PasswordAppear";
 import { useParams } from "react-router-dom";
@@ -46,6 +45,7 @@ function PasswordGen() {
 
   const onClose = () => {
     setOpen(false);
+    form.resetFields();
   };
 
   form.setFieldsValue({
@@ -72,6 +72,7 @@ function PasswordGen() {
       })
       .finally(() => {
         setLoading(false);
+        onClose();
       });
   };
 
@@ -123,34 +124,39 @@ function PasswordGen() {
             setOpen={setOpen}
           />
           <Drawer
-            title="Create password"
+            title={<Typography.Text>Create password</Typography.Text>}
             placement="right"
             onClose={onClose}
             open={open}
-            style={{backgroundColor:'#333'  }}
+            footer={
+              <Button type="dashed" icon={<UploadOutlined />} onClick={sendPass}>
+                Save
+              </Button>
+            }
+            // style={{backgroundColor:'#333'  }}
           >
             <Form layout="vertical" form={form} preserve={false}>
               <Form.Item
                 name="fieldPassword"
-                label="Enter field"
+                label={<Typography.Text strong>Enter field</Typography.Text>}
                 rules={[{ required: true, message: "Please enter field " }]}
-                
               >
-                <Input placeholder="Enter field of password" style={{ backgroundColor: "#7b7d85" }} />
+                <Input
+                  placeholder="Enter field of password" /*{style={{ backgroundColor: "#7b7d85" }} }*/
+                />
               </Form.Item>
               <Form.Item
                 name="password"
-                label="Password"
+                label={<Typography.Text strong>Password</Typography.Text>}
                 rules={[{ required: true }]}
-                
               >
-                <Input style={{ backgroundColor: "#7b7d85" }} />
+                <Input /*{style={{ backgroundColor: "#7b7d85" }} }*/ />
               </Form.Item>
 
               <Row>
                 <Col sm={24} md={12}>
                   <Checkbox
-                  style={{ backgroundColor: "#7b7d85" }}
+                    // style={{ backgroundColor: "#7b7d85" }}
                     onChange={(e) =>
                       handleCheckboxChange(e.target.checked, "number")
                     }
@@ -160,7 +166,7 @@ function PasswordGen() {
                 </Col>
                 <Col sm={24} md={12}>
                   <Checkbox
-                  style={{ backgroundColor: "#7b7d85" }}
+                    // style={{ backgroundColor: "#7b7d85" }}
                     onChange={(e) =>
                       handleCheckboxChange(e.target.checked, "charr")
                     }
@@ -177,11 +183,6 @@ function PasswordGen() {
                   value={length}
                   setValue={setLength}
                 />
-              </div>
-              <div className="absolute inset-x-0 bottom-0 m-4 mx-9 ">
-                <Divider />
-
-                <Button onClick={sendPass}>Click here to copy & submit</Button>
               </div>
             </Form>
           </Drawer>

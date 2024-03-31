@@ -8,18 +8,26 @@ import {
   message,
   Popconfirm,
   ConfigProvider,
+  Row,
+  Col,
+  Grid,
+  Card,
+  Typography,
 } from "antd";
 import {
   DeleteFilled,
   CopyOutlined,
   EditFilled,
   ReloadOutlined,
+  BulbTwoTone,
+  FileZipTwoTone,
 } from "@ant-design/icons";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 
 import { userData, setUserData } from "./reduxToolkit/apiSlice";
 import { useNavigate } from "react-router-dom";
+const { useBreakpoint } = Grid;
 const PasswordAppear = ({ loading, form, open, setOpen }) => {
   const params = useParams();
   const dispatch = useDispatch();
@@ -27,7 +35,7 @@ const PasswordAppear = ({ loading, form, open, setOpen }) => {
   const [authData, setAuthData] = useState([]);
   const [dataLoading, setDataLoading] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
-
+  const screen = useBreakpoint();
   // const logoutData = useSelector((state) => state.setUserData);
   dispatch(userData(authData));
 
@@ -95,9 +103,9 @@ const PasswordAppear = ({ loading, form, open, setOpen }) => {
       key: "password",
       render: (rowData) => (
         <div>
-          <Tag color="#87d068">{rowData?.password}</Tag>
+          <Tag /*{color="#87d068"}*/>{rowData?.password}</Tag>
           <Button
-            className=" text-slate-300"
+            // className=" text-slate-300"
             size="small"
             icon={<CopyOutlined />}
             onClick={() => copyPassword(rowData?.password)}
@@ -111,7 +119,7 @@ const PasswordAppear = ({ loading, form, open, setOpen }) => {
       key: "edit",
       render: (rowData) => (
         <Button
-          className=" text-slate-300"
+          // className=" text-slate-300"
           type="dashed"
           icon={<EditFilled />}
           size="small"
@@ -135,7 +143,9 @@ const PasswordAppear = ({ loading, form, open, setOpen }) => {
         >
           <Button
             size="small"
-            icon={<DeleteFilled style={{ color: "rgba(203, 213, 225)" }} />}
+            icon={
+              <DeleteFilled /*{style={{ color: "rgba(203, 213, 225)" }}}*/ />
+            }
           />
         </Popconfirm>
       ),
@@ -144,7 +154,7 @@ const PasswordAppear = ({ loading, form, open, setOpen }) => {
 
   const reloadButton = (
     <Button
-      icon={<ReloadOutlined style={{ color: "rgba(203, 213, 225)" }} />}
+      icon={<ReloadOutlined /*{style={{ color: "rgba(203, 213, 225)" }}}*/ />}
       onClick={fetchData}
     />
   );
@@ -165,14 +175,72 @@ const PasswordAppear = ({ loading, form, open, setOpen }) => {
         </div>
       ) : (
         <div className="p-2 ">
-          <ConfigProvider theme={customTheme}>
+          {/* <ConfigProvider theme={customTheme}> */}
+          {screen.xs ? (
+            <div className=" space-y-5">
+              {authData?.passwordHistory.map((item) => (
+                <Card
+                  actions={[
+                    <Button
+                      type="link"
+                      icon={<EditFilled />}
+                      size="small"
+                      onClick={() => editpassword(item?._id)}
+                    />,
+
+                    <Popconfirm
+                      title="Delete the task"
+                      description="Are you sure to delete this task?"
+                      onConfirm={() => deletePsssword(rowData?._id)}
+                      okText="Yes"
+                      cancelText="No"
+                      okButtonProps={{ style: { backgroundColor: "#87d068" } }}
+                    >
+                      <Button
+                        type="link"
+                        size="small"
+                        style={{ color: "red" }}
+                        icon={
+                          <DeleteFilled /*{style={{ color: "rgba(203, 213, 225)" }}}*/
+                          />
+                        }
+                      />
+                    </Popconfirm>,
+                  ]}
+                >
+                  <Row gutter={16} align="middle" className=" mb-4">
+                    <Col>
+                      <BulbTwoTone style={{ fontSize: "20px" }} />
+                    </Col>
+                    <Col xs={19}>{item?.fieldPassword}</Col>
+                    <Col xs={2}>
+                      <Button
+                        type="link"
+                        size="small"
+                        icon={<CopyOutlined />}
+                        onClick={() => copyPassword(item?.password)}
+                      />
+                    </Col>
+                  </Row>
+                  <Row gutter={16} align="middle">
+                    <Col>
+                      <FileZipTwoTone style={{ fontSize: "20px" }} />
+                    </Col>
+                    <Col>{item?.password}</Col>
+                  </Row>
+                </Card>
+              ))}
+            </div>
+          ) : (
             <Table
               dataSource={authData?.passwordHistory}
               columns={columns}
               size="small"
               title={() => reloadButton}
             />
-          </ConfigProvider>
+          )}
+
+          {/* </ConfigProvider> */}
         </div>
       )}
     </div>
