@@ -10,6 +10,7 @@ import {
   Drawer,
   Typography,
   Spin,
+  notification
 } from "antd";
 import { PlusCircleOutlined, UploadOutlined } from "@ant-design/icons";
 import axios from "axios";
@@ -62,13 +63,22 @@ function PasswordGen() {
 
   const sendPass = () => {
     setLoading(true);
-
+  
     const formData = form.getFieldsValue();
     axios
       .post(`/api/password-gen/${params.id}`, formData)
-      .then((response) => {})
+      .then((response) => {
+        notification.success({
+          message: 'Success',
+          description: 'Form data saved successfully!',
+        });
+      })
       .catch((error) => {
         console.log("Error", error);
+        notification.error({
+          message: 'Error',
+          description: 'Failed to save form data!',
+        });
       })
       .finally(() => {
         setLoading(false);

@@ -3,6 +3,7 @@ import { User } from "../schema/googleAuth.js";
 
 const loginUserUpdate = asyncHandler(async (req, res) => {
   const { name, email, given_name, email_verified, picture } = req.body;
+  console.log(name, email)
 
   let user = await User.findOne({ email });
   if (!user) {

@@ -10,20 +10,23 @@ import axios from "axios";
 const GoogleAuth = () => {
   const { form } = Form.useForm();
   const [loading, setLoading] = useState(false);
-  const [navigat, setNavigat] = useState(false);
-  const [response, setResponse] = useState();
+
   const [googleAuth, setGoogleAuth] = useState([]);
 
-  const postData = () => {
-    axios
-      .post("/api/login", googleAuth)
-      .then((response) => {
-        setNavigat(true);
-        setResponse(response?.data);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+  const postData = async (payload) => {
+    const value = { ...payload };
+  
+    try {
+      const response = await axios.post(
+        "/api/login",
+        (googleAuth || []).length === 1 ? googleAuth : value
+      );
+      navigate(`password-gen/${response?._id}`);
+
+      navigate(`password-gen/${response?.data?._id}`);
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   const navigate = useNavigate();
@@ -42,7 +45,7 @@ const GoogleAuth = () => {
       </div>
       <Row>
         <Col sm={6}></Col>
-        <Col xs={24} sm={12} >
+        <Col xs={24} sm={12}>
           <Card
             hoverable
             className="md:mt-10 p-4"
@@ -60,9 +63,9 @@ const GoogleAuth = () => {
               <GoogleOAuthProvider clientId={clientId}>
                 <GoogleLogin
                   onSuccess={(credentialResponse) => {
-                    const rest = jwtDecode(credentialResponse.credential);
+                    const response = jwtDecode(credentialResponse.credential);
                     setLoading(true);
-                    setGoogleAuth(rest);
+                    setGoogleAuth(response);
                   }}
                   onError={() => {
                     console.log("Login Failed");
@@ -70,7 +73,6 @@ const GoogleAuth = () => {
                 />
               </GoogleOAuthProvider>
             </div>
-            {navigat && navigate(`password-gen/${response?._id}`)}
 
             <div>
               <Form
@@ -80,15 +82,15 @@ const GoogleAuth = () => {
                 onFinish={postData}
               >
                 <Form.Item
-                  name="emailID"
-                  label="Email Id"
+                  name="email"
+                  label="email"
                   rules={[{ required: true, message: "Please Enter Email Id" }]}
                 >
                   <Input style={{ backgroundColor: "#7b7d85" }} />
                 </Form.Item>
                 <Form.Item
-                  name="passName"
-                  label="Password"
+                  name="name"
+                  label="name"
                   rules={[{ required: true, message: "Please enter password" }]}
                 >
                   <Input style={{ backgroundColor: "#7b7d85" }} />
@@ -120,7 +122,6 @@ const GoogleAuth = () => {
             </div>
           </Card>
         </Col>
-       
       </Row>
     </>
   );
