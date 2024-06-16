@@ -11,3 +11,14 @@ app.use(cookieParser());
 app.use("/", router);
 
 export { app };
+
+
+
+
+
+/* PORT = 8000
+# MONGODB_URL = mongodb+srv://msaadnanil18:Msa130@cluster0.9vvwp5d.mongodb.net
+MONGODB_URL = mongodb+srv://msaadnanil18:Msa130@cluster0.9vvwp5d.mongodb.net
+
+    
+     */
