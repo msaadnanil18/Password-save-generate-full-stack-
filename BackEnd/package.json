@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "nodemon -r dotenv/config --experimental-json-modules src/index.js",
     "build": "esbuild src/index.js --bundle --platform=node --format=cjs --outfile=dist/index.cjs",
-    "start": "node dist/index.cjs"
+    "start": "node -r dotenv/config --experimental-json-modules dist/index.cjs"
   },
   "keywords": [],
   "author": "",
