@@ -49,7 +49,7 @@ const PasswordAppear = ({ loading, form, open, setOpen }) => {
   const fetchData = () => {
     setDataLoading(true);
     axios
-      .get(`/api/auth/${params.id}`)
+      .get(`https://passwordgen.msaadnan.shop/api/auth/${params.id}`)
       .then((res) => {
         setAuthData(res.data);
       })
@@ -68,7 +68,9 @@ const PasswordAppear = ({ loading, form, open, setOpen }) => {
   const deletePsssword = (id) => {
     setDeleteLoading(true);
     axios
-      .delete(`/api/password-delete/${params.id}/${id}`)
+      .delete(
+        `https://passwordgen.msaadnan.shop/api/password-delete/${params.id}/${id}`
+      )
       .then()
       .catch()
       .finally(() => {
@@ -79,7 +81,9 @@ const PasswordAppear = ({ loading, form, open, setOpen }) => {
   const editpassword = (id) => {
     setOpen(true);
     axios
-      .post(`/api/password-edit/${params.id}/${id}`)
+      .post(
+        `https://passwordgen.msaadnan.shop/api/password-edit/${params.id}/${id}`
+      )
       .then((response) => form.setFieldsValue(response.data?.passwordEdit));
   };
   const copyPassword = (password) => {

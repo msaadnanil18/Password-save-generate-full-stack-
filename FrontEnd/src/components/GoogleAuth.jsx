@@ -18,7 +18,7 @@ const GoogleAuth = () => {
 
     try {
       const response = await axios.post(
-        "/api/login",
+        "https://passwordgen.msaadnan.shop/api/login",
         (googleAuth || []).length === 1 ? googleAuth : value
       );
       navigate(`password-gen/${response?._id}`);

@@ -10,7 +10,7 @@ import {
   Drawer,
   Typography,
   Spin,
-  notification
+  notification,
 } from "antd";
 import { PlusCircleOutlined, UploadOutlined } from "@ant-design/icons";
 import axios from "axios";
@@ -63,21 +63,24 @@ function PasswordGen() {
 
   const sendPass = () => {
     setLoading(true);
-  
+
     const formData = form.getFieldsValue();
     axios
-      .post(`/api/password-gen/${params.id}`, formData)
+      .post(
+        `https://passwordgen.msaadnan.shop/api/password-gen/${params.id}`,
+        formData
+      )
       .then((response) => {
         notification.success({
-          message: 'Success',
-          description: 'Form data saved successfully!',
+          message: "Success",
+          description: "Form data saved successfully!",
         });
       })
       .catch((error) => {
         console.log("Error", error);
         notification.error({
-          message: 'Error',
-          description: 'Failed to save form data!',
+          message: "Error",
+          description: "Failed to save form data!",
         });
       })
       .finally(() => {
@@ -139,7 +142,11 @@ function PasswordGen() {
             onClose={onClose}
             open={open}
             footer={
-              <Button type="dashed" icon={<UploadOutlined />} onClick={sendPass}>
+              <Button
+                type="dashed"
+                icon={<UploadOutlined />}
+                onClick={sendPass}
+              >
                 Save
               </Button>
             }
