@@ -15,7 +15,7 @@ const GoogleAuth = () => {
 
   const postData = async (payload) => {
     const value = { ...payload };
-  
+
     try {
       const response = await axios.post(
         "/api/login",
@@ -36,12 +36,7 @@ const GoogleAuth = () => {
   return (
     <>
       <div className=" p-2">
-        <h1
-          style={{ color: "rgba(203, 213, 225)" }}
-          className="text-3xl font-extrabold"
-        >
-          Generate Password
-        </h1>
+        <h1 className="text-3xl font-extrabold">Generate Password</h1>
       </div>
       <Row>
         <Col sm={6}></Col>
@@ -54,7 +49,7 @@ const GoogleAuth = () => {
               height: 435,
               // backgroundColor: "#333",
               // color: "#fff",
-              border: "2px solid #555",
+              // border: "2px solid #555",
               borderRadius: "24px",
               boxShadow: "0 2px 6px rgba(255, 255, 255, 0.1)",
             }}
@@ -86,14 +81,14 @@ const GoogleAuth = () => {
                   label="email"
                   rules={[{ required: true, message: "Please Enter Email Id" }]}
                 >
-                  <Input style={{ backgroundColor: "#7b7d85" }} />
+                  <Input />
                 </Form.Item>
                 <Form.Item
                   name="name"
                   label="name"
                   rules={[{ required: true, message: "Please enter password" }]}
                 >
-                  <Input style={{ backgroundColor: "#7b7d85" }} />
+                  <Input />
                 </Form.Item>
 
                 <Button

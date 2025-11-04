@@ -5,7 +5,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon -r dotenv/config --experimental-json-modules src/index.js"
+    "dev": "nodemon -r dotenv/config --experimental-json-modules src/index.js",
+    "build": "esbuild src/index.js --bundle --platform=node --format=cjs --outfile=dist/index.cjs",
+    "start": "node dist/index.cjs"
   },
   "keywords": [],
   "author": "",
@@ -21,6 +23,7 @@
     "mongoose": "^8.0.3"
   },
   "devDependencies": {
+    "esbuild": "^0.25.12",
     "nodemon": "^3.0.2"
   }
 }
